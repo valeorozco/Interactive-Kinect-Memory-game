@@ -17,7 +17,7 @@ int period2 = 1500, count_ = 0;
 int posi;
 boolean correctPat = true, notContains = true;
 
-int[] initialPat = {1, 3, 4, 2, 5, 6};
+int[] initialPat = {0, 1, 2, 3, 4, 5};
 ArrayList<drawCirc> circls = new ArrayList<drawCirc>();
 ArrayList<Integer> pattern = new ArrayList<Integer>();
 
@@ -35,6 +35,7 @@ void setup() {
   
   oscP5 = new OscP5(this,12000); //listen for OSC messages on port 12000 (Wekinator default)
   dest = new NetAddress("127.0.0.1",6448); //send messages back to Wekinator on port 6448, localhost (this machine) (default)
+  
 }
 
 void draw(){
@@ -48,6 +49,7 @@ void draw(){
   }
   drawPattern();
   patternToDo();
+  eachpointDistance();  
 }
 
 void patternToDo(){
@@ -58,8 +60,8 @@ void patternToDo(){
       text(String.valueOf(initialPat[inP]), step, 50);     
     }
     for (int intP1 = 0; intP1 < count_; intP1++){
-        prevPosX = circls.get(initialPat[intP1]-1).getX();
-        prevPosY = circls.get(initialPat[intP1]-1).getY();
+        prevPosX = circls.get(initialPat[intP1]).getX();
+        prevPosY = circls.get(initialPat[intP1]).getY();
         posX = circls.get(initialPat[intP1+1]-1).getX();
         posY = circls.get(initialPat[intP1+1]-1).getY();
         fill(0);
@@ -71,6 +73,7 @@ void patternToDo(){
     }    
   }
   step = 20;
+
 }
 
 void drawPattern(){
@@ -83,5 +86,33 @@ void drawPattern(){
        fill(0);
        line(prevPosX, prevPosY, posX, posY);      
     }
-  }
+  } 
+}
+
+float distance(float x1, float y1, float x2, float y2){
+  float distance = sqrt( (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) );
+  return distance;
+
+ }
+ 
+ void eachpointDistance(){ 
+ int i; 
+ boolean correct;
+ 
+ for (i = 0; i<=5;i++){
+   
+   float x1= circls.get(initialPat[i]).getX();
+   float y1= circls.get(initialPat[i]).getY();
+   float x2= mouseX;
+   float y2= mouseY;
+   float d = distance(x1,y1,x2,y2);
+   if(d<100){
+       correct=true;
+       println(i);
+   }
+   else {
+      correct= false; 
+   }
+ }
+
 }
