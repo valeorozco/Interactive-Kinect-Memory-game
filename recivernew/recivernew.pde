@@ -15,12 +15,13 @@ color c = color(220,250,0);
 int period = 1200, pat = 1, period1 = 8000, step = 20;
 int period2 = 1500, count_ = 0;
 int posi;
+int currentCircle; //Circle hovered by mouse
+
 boolean correctPat = true, notContains = true;
 
 int[] initialPat = {0, 1, 2, 3, 4, 5};
 ArrayList<drawCirc> circls = new ArrayList<drawCirc>();
 ArrayList<Integer> pattern = new ArrayList<Integer>();
-
 
 void setup() {  
   size(600,400);
@@ -49,7 +50,21 @@ void draw(){
   }
   drawPattern();
   patternToDo();
-  eachpointDistance();  
+  currentCircle = eachpointDistance();  
+  println(currentCircle);
+  addpattern();
+  
+  
+}
+
+void addpattern(){
+  
+ //To fill the array the person does the point can't be repeated, nor it can be equal to.
+  if (currentCircle !=-1 && !pattern.contains(currentCircle)){
+        pattern.add(currentCircle);
+  
+ }
+
 }
 
 void patternToDo(){
@@ -62,8 +77,8 @@ void patternToDo(){
     for (int intP1 = 0; intP1 < count_; intP1++){
         prevPosX = circls.get(initialPat[intP1]).getX();
         prevPosY = circls.get(initialPat[intP1]).getY();
-        posX = circls.get(initialPat[intP1+1]-1).getX();
-        posY = circls.get(initialPat[intP1+1]-1).getY();
+        posX = circls.get(initialPat[intP1+1]).getX();
+        posY = circls.get(initialPat[intP1+1]).getY();
         fill(0);
         line(prevPosX, prevPosY, posX, posY);
       }
@@ -79,12 +94,12 @@ void patternToDo(){
 void drawPattern(){
   if (pattern.size() >= 2 && pattern.size() < 7){
     for (int i = 1; i <= pattern.size()-1; i++){
-       prevPosX = circls.get(pattern.get(i-1)-1).getX();
-       prevPosY = circls.get(pattern.get(i-1)-1).getY();
-       posX = circls.get(pattern.get(i)-1).getX();
-       posY = circls.get(pattern.get(i)-1).getY();
+       prevPosX = circls.get(pattern.get(i-1)).getX();
+       prevPosY = circls.get(pattern.get(i-1)).getY();
+       posX = circls.get(pattern.get(i)).getX();
+       posY = circls.get(pattern.get(i)).getY();
        fill(0);
-       line(prevPosX, prevPosY, posX, posY);      
+       line(prevPosX, prevPosY, posX, posY);            
     }
   } 
 }
@@ -95,9 +110,9 @@ float distance(float x1, float y1, float x2, float y2){
 
  }
  
- void eachpointDistance(){ 
- int i; 
- boolean correct;
+int eachpointDistance(){ 
+ int i;
+
  
  for (i = 0; i<=5;i++){
    
@@ -106,13 +121,12 @@ float distance(float x1, float y1, float x2, float y2){
    float x2= mouseX;
    float y2= mouseY;
    float d = distance(x1,y1,x2,y2);
-   if(d<100){
-       correct=true;
-       println(i);
+  
+   if(d<100) {
+       return i;      
    }
-   else {
-      correct= false; 
-   }
+  }
+  // -1 means im not in any point
+  return -1;
  }
-
-}
+ 
