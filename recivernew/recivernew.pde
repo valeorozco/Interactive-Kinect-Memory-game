@@ -1,8 +1,10 @@
 import oscP5.*;
 import netP5.*;
+import de.voidplus.leapmotion.*;
 
-OscP5 oscP5;
 NetAddress dest;
+
+LeapMotion leap;
 
 float class_ = 0, prevClas = 0, posX, posY, prevPosX, prevPosY;
 float startMillis, startMillis1, startMillis2;
@@ -34,9 +36,8 @@ void setup() {
   circls.add(new drawCirc(5, 20, 20));
   circls.add(new drawCirc(6, 20, 20));
   
-  oscP5 = new OscP5(this,12000); //listen for OSC messages on port 12000 (Wekinator default)
-  dest = new NetAddress("127.0.0.1",6448); //send messages back to Wekinator on port 6448, localhost (this machine) (default)
-  
+  leap = new LeapMotion(this);
+
 }
 
 void draw(){
@@ -51,7 +52,6 @@ void draw(){
   drawPattern();
   patternToDo();
   currentCircle = eachpointDistance();  
-  println(currentCircle);
   addpattern();
   
   
@@ -112,17 +112,30 @@ float distance(float x1, float y1, float x2, float y2){
  
 int eachpointDistance(){ 
  int i;
+ 
+  int countFingers = 0;
+  float handX = 0;
+  float handY = 0;
+  for (Hand hand : leap.getHands ()) {
+    PVector handPosition       = hand.getPosition();
+    handX = handPosition.x;
+    handY = handPosition.y;
+    hand.draw();
+  }
+  
+  fill(153);
+  circle(handX, handY, 5);
 
  
  for (i = 0; i<=5;i++){
    
    float x1= circls.get(initialPat[i]).getX();
    float y1= circls.get(initialPat[i]).getY();
-   float x2= mouseX;
-   float y2= mouseY;
+   float x2= handX;
+   float y2= handY;
    float d = distance(x1,y1,x2,y2);
   
-   if(d<100) {
+   if(d<50) {
        return i;      
    }
   }
