@@ -1,4 +1,4 @@
-# Interactive-Kinect-Memory-game
+# Interactive Kinect Memory game
 ### Planetary themed memory game: Whole Body interaction with Kinect
 
 <p align="justify">Kinect games have been show to improve visuospatial abilities, attention, concentration, working memory, 
