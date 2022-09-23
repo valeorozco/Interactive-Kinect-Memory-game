@@ -17,7 +17,7 @@ https://user-images.githubusercontent.com/85070733/189228319-47347baf-cb3c-440a-
 
 
 
-And, after creating a pretty interface and adaptating it with Kinect tracking we ended up with an incredible interactive game.
+And, after creating a pretty interface and adaptating it with Kinect tracking, we ended up with an incredible interactive game.
 
 https://user-images.githubusercontent.com/85070733/189159894-be73a18b-15fd-4245-9017-ab38b81b4193.mp4
 
